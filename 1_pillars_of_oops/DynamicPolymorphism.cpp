@@ -9,14 +9,14 @@ family will respond to same stimulus differently. Like in real world Manual
 car and Electric car will respond to accelerate() differently.
 
 To represent this in programming, we create a parent class that defines all
-characters and behaviours that are generic to all child classes and are also same in
+characters and behaviours trhat are generic to all child classes and ae also same in
 all child classes but make those methods abstract(virtual) that are generic to all
 child classes but all child class will behave differently. Then those child class
 will provide implementation details of these abstract methods the way they want.
-*/ 
+*/
 
 /*
-🔹 General Rule
+🔹General Rule
 
 Use base class pointer → when you want abstraction/polymorphism (treat all cars the same way, only common operations).
 
@@ -24,8 +24,8 @@ Use child class pointer → when you need child-specific features not present in
 
 */
 
-
-class Car {
+class Car
+{
 protected:
     string brand;
     string model;
@@ -33,48 +33,56 @@ protected:
     int currentSpeed;
 
 public:
-    Car(string brand, string model) {
+    Car(string brand, string model)
+    {
         this->brand = brand;
         this->model = model;
         this->isEngineOn = false;
         this->currentSpeed = 0;
     }
 
-    //Common methods for All cars.
-    void startEngine() {
+    // Common methods for All cars.
+    void startEngine()
+    {
         isEngineOn = true;
         cout << brand << " " << model << " : Engine started." << endl;
     }
 
-    void stopEngine() {
+    void stopEngine()
+    {
         isEngineOn = false;
         currentSpeed = 0;
         cout << brand << " " << model << " : Engine turned off." << endl;
     }
 
-    virtual void accelerate() = 0;  // Abstract method for Dynamic Polymorphism
-    virtual void brake() = 0;       // Abstract method for Dynamic Polymorphism
-    virtual ~Car() {}               // Virtual destructor
+    virtual void accelerate() = 0; // Abstract method for Dynamic Polymorphism
+    virtual void brake() = 0;      // Abstract method for Dynamic Polymorphism
+    virtual ~Car() {}              // Virtual destructor
 };
 
-class ManualCar : public Car {
+class ManualCar : public Car
+{
 private:
     int currentGear;
 
 public:
-    ManualCar(string brand, string model) : Car(brand, model) {
+    ManualCar(string brand, string model) : Car(brand, model)
+    {
         this->currentGear = 0;
     }
 
-    //Specialized method for Manual Car
-    void shiftGear(int gear) {
+    // Specialized method for Manual Car
+    void shiftGear(int gear)
+    {
         currentGear = gear;
         cout << brand << " " << model << " : Shifted to gear " << currentGear << endl;
     }
 
     // Overriding accelerate - Dynamic Polymorphism
-    void accelerate() {
-        if (!isEngineOn) {
+    void accelerate()
+    {
+        if (!isEngineOn)
+        {
             cout << brand << " " << model << " : Cannot accelerate! Engine is off." << endl;
             return;
         }
@@ -83,35 +91,43 @@ public:
     }
 
     // Overriding brake - Dynamic Polymorphism
-    void brake() {
+    void brake()
+    {
         currentSpeed -= 20;
-        if (currentSpeed < 0) currentSpeed = 0;
+        if (currentSpeed < 0)
+            currentSpeed = 0;
         cout << brand << " " << model << " : Braking! Speed is now " << currentSpeed << " km/h" << endl;
     }
 };
 
-class ElectricCar : public Car {
+class ElectricCar : public Car
+{
 private:
     int batteryLevel;
 
 public:
-    ElectricCar(string brand, string model) : Car(brand, model) {
+    ElectricCar(string brand, string model) : Car(brand, model)
+    {
         this->batteryLevel = 100;
     }
 
-    //specialized method for Electric Car
-    void chargeBattery() {
+    // specialized method for Electric Car
+    void chargeBattery()
+    {
         batteryLevel = 100;
         cout << brand << " " << model << " : Battery fully charged!" << endl;
     }
 
     // Overriding accelerate - Dynamic Polymorphism
-    void accelerate() {
-        if (!isEngineOn) {
+    void accelerate()
+    {
+        if (!isEngineOn)
+        {
             cout << brand << " " << model << " : Cannot accelerate! Engine is off." << endl;
             return;
         }
-        if (batteryLevel <= 0) {
+        if (batteryLevel <= 0)
+        {
             cout << brand << " " << model << " : Battery dead! Cannot accelerate." << endl;
             return;
         }
@@ -121,17 +137,19 @@ public:
     }
 
     // Overriding brake - Dynamic Polymorphism
-    void brake() {
+    void brake()
+    {
         currentSpeed -= 15;
-        if (currentSpeed < 0) currentSpeed = 0;
+        if (currentSpeed < 0)
+            currentSpeed = 0;
         cout << brand << " " << model << " : Regenerative braking! Speed is now " << currentSpeed << " km/h. Battery at " << batteryLevel << "%." << endl;
     }
 };
 
-
 // Main function
-int main() {
-    Car* myManualCar = new ManualCar("Suzuki", "WagonR");
+int main()
+{
+    Car *myManualCar = new ManualCar("Suzuki", "WagonR");
     myManualCar->startEngine();
     myManualCar->accelerate();
     myManualCar->accelerate();
@@ -140,7 +158,7 @@ int main() {
 
     cout << "----------------------" << endl;
 
-    Car* myElectricCar = new ElectricCar("Tesla", "Model S");
+    Car *myElectricCar = new ElectricCar("Tesla", "Model S");
     myElectricCar->startEngine();
     myElectricCar->accelerate();
     myElectricCar->accelerate();
